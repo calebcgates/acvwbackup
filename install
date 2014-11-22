@@ -1,0 +1,11 @@
+#Checksum config file. If it matches the original generic file, fail script with warning to fill it out first.
+
+#installs scripts to directory /usr/bin or ~/www-backups
+
+#Asks if RSA key exchange is working.
+#If not
+#--prompts for RSA key name (or uses id_rsa if none)
+#--ssh-copy-id to backup server
+#--user will have to enter password at prompt.
+
+#adds cron jobs
