@@ -1,0 +1,56 @@
+#! /bin/bash
+
+#sources config file
+source /scripts/www-backup-config.conf
+
+if [ '$rootoverride' != 'yes' && '$rootoverride' != 'y' && '$rootoverride' != 'Y' ]; then
+    if [ '$user' = 'root' || '$user' = 'ROOT' ]; then
+        echo 'Cannot run script using root MySQL user.'
+        echo 'To override, change $rootoverride value to 'yes''
+        break;
+    fi
+fi
+
+#Registers the current time for use in file naming.
+curtime=`date +"%Y%m%d-%H"`
+echo 'Dumping mySQL Database'
+#dump SQL Databases into file in /var/www/sql/
+mysqldump -u $dbuser --password=$pass $database > /var/www/sql/$sqlfp\-$curtime.sql
+
+#Compress contents of /var/www into .tar.gz
+cd /var/
+echo 'Generating tar archive.'
+tar -zcf ~/www-$curtime.tar.gz www/
+echo 'Archive complete.'
+#Checksum (generate and log)
+echo 'Generating SHA2 checksum of archive.'
+sha256sum ~/www-$curtime.tar.gz >> $shalog
+#Mail checksum to designated email address.
+echo 'Mailing checksum to:'
+echo $email
+mail -s "Checksum for today's backup" $email <<< `sha256sum ~/www-$curtime.tar.gz`
+echo 'Sum logged and mailed.'
+#syncs archive to remote server.
+#In order for this to be automated, you will need to add your public key to the other server's authorized_keys file.
+echo 'Begin Archive Copy via SCP'
+scp -i /root/.ssh/nbauth ~/www-$curtime.tar.gz $rsuser\@$ip:$bd/
+echo 'End Archive Copy via SCP'
+echo 'Removing archive from originating machine......'
+rm ~/www-$curtime.tar.gz
+echo 'Removal completed.'
+echo 'Removing SQL Dump.....'
+rm /var/www/sql/$sqlfp\-$curtime.sql
+echo 'SQL Dump Removal Completed.'
+echo 'Notifying admin of script completion...'
+echo '......'
+echo '.....'
+echo '....'
+echo '...'
+echo '..'
+echo '.'
+mail -s "Backup script complete." $admin <<< `"The Backup script for " + $curtime + " has been completed. Check server logs to verify success.`
+mail -s "Backup script complete." $2dry <<< `"The Backup script for " + $curtime + " has been completed. Check server logs to verify success.`
+
+echo 'Script completed.'
+echo 'Stopping...'
+echo 'Stopped.'
