@@ -1,6 +1,6 @@
 #! /bin/bash
 
-echo << "EOF"
+cat << "EOF"
          _                                                          
         dM.                                                         
        ,MMb                                                         
