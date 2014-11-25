@@ -18,13 +18,14 @@ echo "Aranaur's Complete /var/www (and MySQL) Backup installation script."
 echo "Find other projects at http://drewgates.com"
 echo "-----------------------------------------"
 echo "This script will walk you through installation of ACvwBackup"
+echo "IF YOU HAVE RUN THIS SCRIPT BEFORE IT WILL OVERWRITE YOUR CONFIG FILE."
 read -p "Press [Enter] key to start installation..."
 clear
 
 #THIS SCRIPT CREATES THE DIRECTORIES FOR THE DEFAULT PATHS BELOW.
 #IF YOU CHANGE THE SETTINGS BELOW, YOU MUST CREATE THOSE DIRECTORIES BEFORE RUNNING THIS SCRIPT.
 #configuration file name (full path)
-conffile='~/www-backup/config/wwb-config.conf'
+conffile='~/www-backup/config/wwb-config'
 #installation path (should be same path as configuration file path)
 installat='~/www-backup'
 
@@ -37,8 +38,7 @@ mkdir ~/www-backup/config/
 
 
 #Create CONFIG FILE:
-touch $conffile
-echo "#! /bin/bash" > $conffile
+echo "#! /bin/bash" >> $conffile
 echo "#USER CONFIGURATION. FILL OUT FIELDS AS NECESSARY. BE CAREFUL." >> $conffile
 echo "###-------START-CONFIGURATION-----------------------------------------###" >> $conffile
 echo "#Backup File Prefix (e.g. the 'backup' of backup20141104.tar.gz)" >> $conffile
