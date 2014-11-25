@@ -49,28 +49,46 @@ read -p "Enter your database username. DO NOT USE 'root'!" dbu
 echo "dbuser='$dbu'" >> $conffile
 read -p "Enter your database password:" pass
 echo "pass='$pass'" >> $conffile
-echo "#MYSQL ROOT override: allow mysql to be exported using root account --NOT RECOMMENDED)" >> ~/www-backup/config/wwb-config.conf
+echo "#MYSQL ROOT override: allow mysql to be exported using root account --NOT RECOMMENDED)" >> $conffile
 echo "#Enter only yes or no." >> $conffile
 echo "rootoverride='no'" >> $conffile
 
-echo "#Checksums (SHA256):
-echo "#Local log file:
+echo "#Checksums (SHA256):" >> $conffile
+echo "#Local log file:" >> $conffile
 shalog='~/sum.log'
-echo "#Destination email:
+echo "#Destination email:" >> $conffile
 email='someone@example.com'
 
-echo "#Contacts:
-echo "#Primary Notification contact:
+clear
+echo "######------------############-------------######"
+echo "                 Email Contacts"
+echo "######------------############-------------######"
+echo ""
+echo "The next few settings will have no effect unless you properly installed exim4."
+echo "It is reccomended that you check test exim4 configuration after this script completes."
+echo "A command to test exim configuration is being stored in ~/TESTEXIM.txt"
+echo ""
+echo ""
+
+
+
+echo "#Contacts:" >> $conffile
+echo "#Primary Notification contact:" >> $conffile
+echo "Enter an email address as your primary contact for daily backup notifications:"
+read -p "Email: 
 admin='king@england.com'
-echo "#Secondary Notification contact:
+echo "#Secondary Notification contact:" >> $conffile
 2dry='prez@thewhiteho.us'
 
-echo "#Remote Server IP/FQDN
-ip='127.0.0.1'
-echo "#Remote Backup Directory (NO TRAILING "/")
-bd='~/backups'
-echo "#Remote Server Username (I created an account called 'backups', do whatever you want)
-rsuser='backups'
+echo "#Remote Server IP/FQDN" >> $conffile
+read -p "Enter the IP or Domain of backup server:" fqdn
+echo "ip='$fqdn'" >> $conffile
+echo "#Remote Backup Directory (NO TRAILING "/")" >> $conffile
+read -p "Enter the remote backup folder path on remote server (NO TRAILING "/". ex. /home/test/backups) bacd
+echo "bd='$bacd'" >> $conffile
+echo "#Remote Server Username (I created an account called 'backups', do whatever you want)" >> $conffile
+read -p "Remote server username (I created an account called 'backups', do whatever you want)" susr
+echo "rsuser='$susr'" >> $conffile
 
 echo "###--------END-CONFIGURATION------------------------------------------###
 
@@ -85,3 +103,21 @@ echo "###--------END-CONFIGURATION------------------------------------------###
 #--user will have to enter password at prompt.
 
 #adds cron jobs
+
+#######-------CREDITS-------#######
+clear
+echo "This script and program created by Aranaur (Drew Gates) for CGAMWR.com"
+echo "  ______                       _______       __                                      
+echo " |   _  \ .----.-----.--.--.--|   _   .---.-|  |_.-----.-----.  .----.-----.--------.
+echo " |.  |   \|   _|  -__|  |  |  |.  |___|  _  |   _|  -__|__ --|__|  __|  _  |        |
+echo " |.  |    |__| |_____|________|.  |   |___._|____|_____|_____|__|____|_____|__|__|__|
+echo " |:  1    /                   |:  1   |                                              
+echo " |::.. . /                    |::.. . |                                              
+echo " `------'                     `-------'                                              
+echo ""
+read -p "Press [Enter] to finish."
+clear
+echo "Installation complete."
+
+#####--------END CREDITS-----------###########
+#####--------END SCRIPT------------###########
