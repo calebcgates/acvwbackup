@@ -25,7 +25,6 @@ clear
 #IF YOU CHANGE THE SETTINGS BELOW, YOU MUST CREATE THOSE DIRECTORIES BEFORE RUNNING THIS SCRIPT.
 #configuration file name (full path)
 conffile='~/www-backup/config/wwb-config.conf'
-touch $conffile
 #installation path (should be same path as configuration file path)
 installat='~/www-backup'
 
@@ -40,7 +39,9 @@ echo "#USER CONFIGURATION. FILL OUT FIELDS AS NECESSARY. BE CAREFUL." >> $conffi
 echo "###-------START-CONFIGURATION-----------------------------------------###" >> $conffile
 echo "#Backup File Prefix (e.g. the 'backup' of backup20141104.tar.gz)" >> $conffile
 
+
 #Create CONFIG FILE:
+touch $conffile
 echo "Let's set up your config file."
 echo "Your configuration can be changed at any time"
 echo "and is located in $conffile"
