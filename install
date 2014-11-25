@@ -89,7 +89,8 @@ echo "#Secondary Notification contact:" >> $conffile
 echo "Enter a secondary notification contact (or press [Enter] to leave blank."
 read -p 'Email:" 2adem
 echo "2dry='$2adem'
-echo "mail -s "ACvwBackup: IT WORKS" $email <<< `Sending email is configured correctly. ACvwBackup's notification settings should function properly.`" > TEXTEXIM.sh
+echo "#! /bin/bash" > TESTEXIM.sh
+echo "mail -s "ACvwBackup: IT WORKS" $email <<< `Sending email is configured correctly. ACvwBackup's notification settings should function properly.`" >> TEXTEXIM.sh
 
 echo "#Remote Server IP/FQDN" >> $conffile
 read -p "Enter the IP or Domain of backup server:" fqdn
