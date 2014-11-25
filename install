@@ -1,7 +1,5 @@
 #! /bin/bash
 
-#configuration file name (full path)
-conffile='~/www-backup/config/wwb-config.conf'
 echo "   (                                  "
 echo "   )\   (      )          )   (  (    "
 echo "((((_)( )(  ( /(  (    ( /(  ))\ )(   "
@@ -9,28 +7,35 @@ echo " )\ _ )(()\ )(_)) )\ ) )(_))/((_(()\  "
 echo " (_)_\(_((_((_)_ _(_/(((_)_(_))( ((_) "
 echo "  / _ \| '_/ _` | ' \)/ _` | || | '_| "
 echo " /_/ \_|_| \__,_|_||_|\__,_|\_,_|_|   "
-echo "Aranaur's www-backup installation script."
+echo "Aranaur's Complete /var/www (and MySQL) Backup installation script."
 echo "Find other projects at http://drewgates.com"
 echo "-----------------------------------------"
-echo "This script will walk you through installation of www-backup"
-read -p "Press [Enter] key to start backup..."
+echo "This script will walk you through installation of ACvwBackup"
+read -p "Press [Enter] key to start installation..."
 clear
+
+#THIS SCRIPT CREATES THE DIRECTORIES FOR THE DEFAULT PATHS BELOW.
+#IF YOU CHANGE THE SETTINGS BELOW, YOU MUST CREATE THOSE DIRECTORIES BEFORE RUNNING THIS SCRIPT.
+#configuration file name (full path)
+conffile='~/www-backup/config/wwb-config.conf'
+#installation path (should be same path as configuration file path)
+installat='~/www-backup'
 
 #INSTALL DEPENDENCIES
 
 #Create bin directory
+#Generate conf file
 mkdir ~/www-backup
 mkdir ~/www-backup/config/
 echo "#! /bin/bash" > $conffile
 echo "#USER CONFIGURATION. FILL OUT FIELDS AS NECESSARY. BE CAREFUL." >> $conffile
 echo "###-------START-CONFIGURATION-----------------------------------------###" >> $conffile
-
 echo "#Backup File Prefix (e.g. the 'backup' of backup20141104.tar.gz)" >> $conffile
 
 #Create CONFIG FILE:
 echo "Let's set up your config file."
 echo "Your configuration can be changed at any time"
-echo "and is located in ~/www-backup/config/wwb-config"
+echo "and is located in $conffile"
 echo ""
 echo ""
 echo "Your Backup file prefix will prepend the date information on your archive file."
@@ -53,11 +58,17 @@ echo "#MYSQL ROOT override: allow mysql to be exported using root account --NOT 
 echo "#Enter only yes or no." >> $conffile
 echo "rootoverride='no'" >> $conffile
 
+#CHECKSUMS
+
 echo "#Checksums (SHA256):" >> $conffile
 echo "#Local log file:" >> $conffile
-shalog='~/sum.log'
+cd $installat
+mkdir log
+echo "shalog='$installat/sum.log'" >> $conffile
+echo "Enter an email address to receive sha checksums of backups to be used for security."
+read -p "Email:" shamail
 echo "#Destination email:" >> $conffile
-email='someone@example.com'
+echo "email='$shamail'" >> $conffile
 
 clear
 echo "######------------############-------------######"
@@ -66,19 +77,19 @@ echo "######------------############-------------######"
 echo ""
 echo "The next few settings will have no effect unless you properly installed exim4."
 echo "It is reccomended that you check test exim4 configuration after this script completes."
-echo "A command to test exim configuration is being stored in ~/TESTEXIM.txt"
+echo "You can test exim configuration by running ~/TESTEXIM.sh"
 echo ""
 echo ""
-
-
-
 echo "#Contacts:" >> $conffile
 echo "#Primary Notification contact:" >> $conffile
 echo "Enter an email address as your primary contact for daily backup notifications:"
-read -p "Email: 
-admin='king@england.com'
+read -p "Email:" adem
+echo "admin='$adem'" >> $conffile
 echo "#Secondary Notification contact:" >> $conffile
-2dry='prez@thewhiteho.us'
+echo "Enter a secondary notification contact (or press [Enter] to leave blank."
+read -p 'Email:" 2adem
+echo "2dry='$2adem'
+echo "mail -s "ACvwBackup: IT WORKS" $email <<< `Sending email is configured correctly. ACvwBackup's notification settings should function properly.`" > TEXTEXIM.sh
 
 echo "#Remote Server IP/FQDN" >> $conffile
 read -p "Enter the IP or Domain of backup server:" fqdn
@@ -92,9 +103,17 @@ echo "rsuser='$susr'" >> $conffile
 
 echo "###--------END-CONFIGURATION------------------------------------------###
 
-#Checksum config file. If it matches the original generic file, fail script with warning to fill it out first.
+#installs scripts to directory denoted as $installat above.
+cd $installad
+mkdir bin
+cd bin
+wget https://raw.githubusercontent.com/aranaur/acvwbackup/master/www-backup
+chmod +x www-backup
+wget https://raw.githubusercontent.com/aranaur/acvwbackup/master/cron
 
-#installs scripts to directory /usr/bin or ~/www-backups
+xcr=$(cat cron)
+username='echo $USER'
+(crontab -u userhere -l; echo "$xcr" ) | crontab -u $username -
 
 #Asks if RSA key exchange is working.
 #If not
