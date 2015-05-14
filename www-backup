@@ -1,7 +1,7 @@
 #! /bin/bash
 
 #sources config file
-source /scripts/www-backup-config.conf
+source /scripts/wwb-config.conf
 
 if [ '$rootoverride' != 'yes' && '$rootoverride' != 'y' && '$rootoverride' != 'Y' ]; then
     if [ '$user' = 'root' || '$user' = 'ROOT' ]; then
