@@ -25,7 +25,7 @@ clear
 #THIS SCRIPT CREATES THE DIRECTORIES FOR THE DEFAULT PATHS BELOW.
 #IF YOU CHANGE THE SETTINGS BELOW, YOU MUST CREATE THOSE DIRECTORIES BEFORE RUNNING THIS SCRIPT.
 #configuration file name (full path)
-conffile='~/.www-backup/config/wwb-config'
+conffile='~/.www-backup/config/wwb-config.config'
 #installation path (should be same path as configuration file path)
 installat='~/.www-backup/bin'
 
