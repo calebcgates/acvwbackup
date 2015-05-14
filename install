@@ -25,16 +25,19 @@ clear
 #THIS SCRIPT CREATES THE DIRECTORIES FOR THE DEFAULT PATHS BELOW.
 #IF YOU CHANGE THE SETTINGS BELOW, YOU MUST CREATE THOSE DIRECTORIES BEFORE RUNNING THIS SCRIPT.
 #configuration file name (full path)
-conffile='~/www-backup/config/wwb-config'
+conffile='~/.www-backup/config/wwb-config'
 #installation path (should be same path as configuration file path)
-installat='~/www-backup'
+installat='~/.www-backup/bin'
 
 #INSTALL DEPENDENCIES
 
 #Create bin directory
 #Generate conf file
-mkdir ~/www-backup
-mkdir ~/www-backup/config/
+mkdir ~/.www-backup/
+mkdir ~/.www-backup/bin
+mkdir ~/.www-backup/config/
+#adds bin to your path so you can execute as command.
+echo "export PATH=$PATH:~/.www-backup/bin" >> ~/.bashrc
 
 
 #Create CONFIG FILE:
@@ -115,12 +118,8 @@ echo "rsuser='$susr'" >> $conffile
 echo "###--------END-CONFIGURATION------------------------------------------###
 
 #installs scripts to directory denoted as $installat above.
-cd $installad
-mkdir bin
-cd bin
-wget https://raw.githubusercontent.com/aranaur/acvwbackup/master/www-backup
-chmod +x www-backup
-wget https://raw.githubusercontent.com/aranaur/acvwbackup/master/cron
+cp www-backup ~/.www-backup/bin/www-backup
+
 
 xcr=$(cat cron)
 username='echo $USER'
